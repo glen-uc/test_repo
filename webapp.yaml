@@ -4,6 +4,7 @@ metadata:
   name: deployment-webapp
   annotations:
     fluxcd.io/automated: "true"
+  namespace: test
 spec:
   replicas: 1
   selector:
@@ -23,7 +24,7 @@ spec:
         - name: webapp
           securityContext:
             {}
-          image: test_new
+          image: alpine:3.11.3
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
