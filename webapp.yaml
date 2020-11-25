@@ -13,8 +13,6 @@ spec:
     metadata:
       labels:
         module: webapp
-      annotations:
-        fluentbit.io/parser: webapp
     spec:
       serviceAccountName: default
       securityContext:
@@ -36,3 +34,4 @@ spec:
         options:
         - name: ndots
           value: "1"
+
