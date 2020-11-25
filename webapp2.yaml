@@ -1,0 +1,71 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: webapp-release
+  namespace: test
+  annotations:
+    fluxcd.io/automated: "true"
+spec:
+  releaseName: webapp
+  targetNamespace: test
+  chart:
+    repository: http://uchelmcharts.unicourt.internal:4769/
+    name: base-deployment
+    version: 0.1.7
+  values:
+    global:
+      applicationName: new
+    replicaCount: 1
+    image: alpine:3.11.3
+    strategy:
+      type: Recreate
+    containerDetails:
+      commandArgs:
+        command: ["/bin/sh", "-c", "--"]
+      ports:
+      - containerPort: 8000
+        name: p-abe-app
+      # envSecret:
+      # - name: username     # name for the field for env variable
+      #   key: username     # key from the secret
+      # - name: password     # name for the field for env variable
+      #   key: password     # key from the secret
+      # - name: RABBITMQ_DEFAULT_USER     # name for the field for env variable
+      #   key: rabbitmq_username     # key from the secret
+      # - name: RABBITMQ_DEFAULT_PASS     # name for the field for env variable
+      #   key: rabbitmq_password     # key from the secret
+      # - name: keycloak_client_id     # name for the field for env variable
+      #   key: keycloak_client_id     # key from the secret
+      # - name: keycloak_client_secret     # name for the field for env variable
+      #   key: keycloak_client_secret     # key from the secret
+    resources:
+      limits:
+        cpu: 200m
+        memory: 400Mi
+      requests:
+        cpu: 100m
+        memory: 200Mi
+    service:
+      type: NodePort
+      port: 8000
+      targetPort: p-abe-app
+      nodePort: 30502
+    # external-secrets:
+    #   secrets:
+    #   - path: staging/databank/psql-remote
+    #     property:
+    #     - username
+    #     - password
+    #   - path: staging/databank/rabbitmq-remote
+    #     additionalName: "rabbitmq"
+    #     property:
+    #     - username
+    #     - password
+    #   - path: staging/databank/keycloak-abe-webapp
+    #     additionalName: "keycloak"
+    #     property:
+    #     - client_id
+    #     - client_secret
+
+
