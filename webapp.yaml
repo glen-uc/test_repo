@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      module: webapp
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        module: webapp
+      annotations:
+        fluentbit.io/parser: webapp
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: webapp
+          securityContext:
+            {}
+          image: "test_image"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+              name: p-abe-app
+          command:
+            - /bin/sh
+            - -c
+            - --
+      dnsConfig:
+        options:
+        - name: ndots
+          value: "1"
