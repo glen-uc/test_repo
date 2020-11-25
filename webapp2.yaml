@@ -17,7 +17,7 @@ spec:
     global:
       applicationName: new
     replicaCount: 1
-    image: alpine:3.11.3
+    image: alpine:3
     strategy:
       type: Recreate
     containerDetails:
