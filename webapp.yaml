@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: deployment-webapp
+  annotations:
+    fluxcd.io/automated: "true"
 spec:
   replicas: 1
   selector:
@@ -21,7 +23,7 @@ spec:
         - name: webapp
           securityContext:
             {}
-          image: "test_image"
+          image: test_new
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
