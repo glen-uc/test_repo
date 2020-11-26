@@ -2,7 +2,7 @@ apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
   name: remote-release
-  namespace: 
+  namespace: test
   annotations:
     fluxcd.io/automated: "true"
 spec:
