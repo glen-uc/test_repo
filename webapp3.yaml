@@ -1,0 +1,60 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: remote-release
+  namespace: 
+  annotations:
+    fluxcd.io/automated: "true"
+spec:
+  releaseName: remote-webapp
+  targetNamespace: test
+  chart:
+    repository: 
+    name: base-deployment
+    version: 0.1.0
+  values:
+    global:
+      applicationName: remote
+    replicaCount: 1
+    image: alpine:3.11.3
+    strategy:
+      type: Recreate
+    containerDetails:
+      pullPolicy: IfNotPresent
+      commandArgs:
+          command: ["/bin/sh", "-c", "--"]
+          args: ["while true; do sleep 300; done;"]
+      ports:
+      - containerPort: 8000
+        name: p-abe-app
+      env:
+      - name: host
+        value: service-abe-db
+      - name: port
+        value: "5432"
+      - name: AUDIT_LOG_ENABLED
+        value: enabled
+      - name: INSTANCE_TYPE
+        value: staging
+      - name: RABBITMQ_BROKER_IP
+        value: service-rabbitmq
+      - name: TASK_FOLDER_PATH
+        value: attorney_bar_app/
+      - name: TASK_FILE_PATH
+        value: attorney_bar_app.tasks
+      - name: keycloak_url
+        value: https://prod-keycloak.unicourt.com:5743
+    resources:
+      limits:
+        cpu: 200m
+        memory: 400Mi
+      requests:
+        cpu: 100m
+        memory: 200Mi
+    service:
+      type: NodePort
+      port: 8000
+      targetPort: p-abe-app
+      nodePort: 30502
+
+
