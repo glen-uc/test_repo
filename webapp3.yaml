@@ -9,7 +9,7 @@ spec:
   releaseName: remote-webapp
   targetNamespace: test
   chart:
-    repository: git@github.com:glen-uc/base-deployment.git
+    repository: https://github.com/glen-uc/base-deployment
     name: base-deployment
     version: 0.1.0
   values:
