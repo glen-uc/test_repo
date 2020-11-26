@@ -1,3 +1,4 @@
+---
 apiVersion: helm.fluxcd.io/v1
 kind: HelmRelease
 metadata:
@@ -16,14 +17,14 @@ spec:
     global:
       applicationName: remote
     replicaCount: 1
-    image: alpine:3.11.3
+    image: alpine:3
     strategy:
       type: Recreate
     containerDetails:
       pullPolicy: IfNotPresent
       commandArgs:
-          command: ["/bin/sh", "-c", "--"]
-          args: ["while true; do sleep 300; done;"]
+        command: ["/bin/sh", "-c", "--"]
+        args: ["while true; do sleep 300; done;"]
       ports:
       - containerPort: 8000
         name: p-abe-app
